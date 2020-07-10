@@ -21,8 +21,13 @@ abstract class _HomeControllerBase with Store {
 
   ObservableList<HeroModel> heroList = <HeroModel>[].asObservable();
 
+  @observable
+  int offset = 0;
+
+  final int limit = 20;
+
   loadRepositoryData() {
-    heroFuture = _repository.getHeroes().asObservable();
+    heroFuture = _repository.getHeroes(offset: offset).asObservable();
 
     heroFuture.whenComplete(() => heroList.addAll(heroFuture.value));
   }
