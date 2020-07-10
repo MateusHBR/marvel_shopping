@@ -24,10 +24,26 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$offsetAtom = Atom(name: '_HomeControllerBase.offset');
+
+  @override
+  int get offset {
+    _$offsetAtom.reportRead();
+    return super.offset;
+  }
+
+  @override
+  set offset(int value) {
+    _$offsetAtom.reportWrite(value, super.offset, () {
+      super.offset = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-heroFuture: ${heroFuture}
+heroFuture: ${heroFuture},
+offset: ${offset}
     ''';
   }
 }
