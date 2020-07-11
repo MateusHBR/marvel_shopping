@@ -1,0 +1,4 @@
+lib/app/modules/home/pages/item_page/item_page_page.dart
+test/app/modules/home/pages/item_page/item_page_page_test.dart
+lib/app/modules/home/pages/item_page/item_page_controller.dart
+test/app/modules/home/pages/item_page/item_page_controller_test.dart
