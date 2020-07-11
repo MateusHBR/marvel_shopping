@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:marvel_store/app/shared/constants/base_url.dart';
+import 'package:marvel_store/app/shared/util/base_url.dart';
 import 'package:marvel_store/app/shared/repositories/marvel_repository.dart';
 
 import 'app_controller.dart';
