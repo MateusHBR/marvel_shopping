@@ -1,3 +1,1 @@
-//TODO: LOGIN SCREEN
-//TODO: CARRINHO SCREEN
-//TODO: COMPRA SCREEN
+//TODO: Implementar funcionalidade ao clicar no item do carrinho, navegar para a pagina do item
