@@ -8,6 +8,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:marvel_store/app/app_widget.dart';
 import 'package:marvel_store/app/modules/home/home_module.dart';
+import 'package:marvel_store/app/modules/cart/cart_module.dart';
 
 class AppModule extends MainModule {
   @override
@@ -24,6 +25,11 @@ class AppModule extends MainModule {
           '/login',
           module: LoginModule(),
           transition: TransitionType.leftToRight,
+        ),
+        Router(
+          '/cart',
+          module: CartModule(),
+          transition: TransitionType.rightToLeft,
         ),
       ];
 
