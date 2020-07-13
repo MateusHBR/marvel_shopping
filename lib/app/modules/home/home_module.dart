@@ -14,7 +14,12 @@ class HomeModule extends ChildModule {
   List<Bind> get binds => [
         Bind((i) => CarrinhoStore()),
         Bind((i) => ItemController(i.get<CarrinhoStore>())),
-        Bind((i) => HomeController(i.get<MarvelRepository>())),
+        Bind(
+          (i) => HomeController(
+            i.get<MarvelRepository>(),
+            i.get<CarrinhoStore>(),
+          ),
+        ),
       ];
 
   @override
