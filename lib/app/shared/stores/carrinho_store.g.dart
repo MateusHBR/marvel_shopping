@@ -16,6 +16,13 @@ mixin _$CarrinhoStore on _CarrinhoStoreBase, Store {
       (_$loggedInComputed ??= Computed<bool>(() => super.loggedIn,
               name: '_CarrinhoStoreBase.loggedIn'))
           .value;
+  Computed<double> _$finalValueComputed;
+
+  @override
+  double get finalValue =>
+      (_$finalValueComputed ??= Computed<double>(() => super.finalValue,
+              name: '_CarrinhoStoreBase.finalValue'))
+          .value;
 
   final _$userAtom = Atom(name: '_CarrinhoStoreBase.user');
 
@@ -32,18 +39,18 @@ mixin _$CarrinhoStore on _CarrinhoStoreBase, Store {
     });
   }
 
-  final _$carrinhoAtom = Atom(name: '_CarrinhoStoreBase.carrinho');
+  final _$cartAtom = Atom(name: '_CarrinhoStoreBase.cart');
 
   @override
-  ObservableList<CarrinhoHeroModel> get carrinho {
-    _$carrinhoAtom.reportRead();
-    return super.carrinho;
+  ObservableList<CarrinhoHeroModel> get cart {
+    _$cartAtom.reportRead();
+    return super.cart;
   }
 
   @override
-  set carrinho(ObservableList<CarrinhoHeroModel> value) {
-    _$carrinhoAtom.reportWrite(value, super.carrinho, () {
-      super.carrinho = value;
+  set cart(ObservableList<CarrinhoHeroModel> value) {
+    _$cartAtom.reportWrite(value, super.cart, () {
+      super.cart = value;
     });
   }
 
@@ -73,33 +80,22 @@ mixin _$CarrinhoStore on _CarrinhoStoreBase, Store {
   }
 
   @override
-  bool itemInCart(HeroModel hero) {
+  dynamic addInCart(CarrinhoHeroModel value) {
     final _$actionInfo = _$_CarrinhoStoreBaseActionController.startAction(
-        name: '_CarrinhoStoreBase.itemInCart');
+        name: '_CarrinhoStoreBase.addInCart');
     try {
-      return super.itemInCart(hero);
+      return super.addInCart(value);
     } finally {
       _$_CarrinhoStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic add(CarrinhoHeroModel value) {
+  dynamic removeFromCart(CarrinhoHeroModel value) {
     final _$actionInfo = _$_CarrinhoStoreBaseActionController.startAction(
-        name: '_CarrinhoStoreBase.add');
+        name: '_CarrinhoStoreBase.removeFromCart');
     try {
-      return super.add(value);
-    } finally {
-      _$_CarrinhoStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic subtract(CarrinhoHeroModel value) {
-    final _$actionInfo = _$_CarrinhoStoreBaseActionController.startAction(
-        name: '_CarrinhoStoreBase.subtract');
-    try {
-      return super.subtract(value);
+      return super.removeFromCart(value);
     } finally {
       _$_CarrinhoStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -109,8 +105,9 @@ mixin _$CarrinhoStore on _CarrinhoStoreBase, Store {
   String toString() {
     return '''
 user: ${user},
-carrinho: ${carrinho},
-loggedIn: ${loggedIn}
+cart: ${cart},
+loggedIn: ${loggedIn},
+finalValue: ${finalValue}
     ''';
   }
 }

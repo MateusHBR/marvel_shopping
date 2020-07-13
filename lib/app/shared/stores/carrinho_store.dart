@@ -34,29 +34,47 @@ abstract class _CarrinhoStoreBase with Store {
   }
 
   @observable
-  ObservableList<CarrinhoHeroModel> carrinho =
-      <CarrinhoHeroModel>[].asObservable();
+  ObservableList<CarrinhoHeroModel> cart = <CarrinhoHeroModel>[].asObservable();
+
+  // @action
+  // bool itemInCart(HeroModel hero) {
+  //   int index = cart.indexWhere((element) => element.hero.id == hero.id);
+  //   if (index >= 0) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   @action
-  bool itemInCart(HeroModel hero) {
-    int index = carrinho.indexWhere((element) => element.hero.id == hero.id);
-    if (index >= 0) {
-      return true;
+  addInCart(CarrinhoHeroModel value) {
+    int index = cart.indexWhere((element) => element.hero.id == value.hero.id);
+    if (index < 0) {
+      cart.add(value);
+    } else {
+      int quantity = cart[index].quantity + 1;
+      cart[index] = value.copyWith(quantity: quantity);
     }
-    return false;
   }
 
   @action
-  add(CarrinhoHeroModel value) {
-    int index =
-        carrinho.indexWhere((element) => element.hero.id == value.hero.id);
-    carrinho[index] = value.copyWith(quantity: value.quantity + 1);
+  removeFromCart(CarrinhoHeroModel value) {
+    int index = cart.indexWhere((element) => element.hero.id == value.hero.id);
+    if (cart[index].quantity > 1) {
+      int quantity = cart[index].quantity - 1;
+      cart[index] = value.copyWith(quantity: quantity);
+    } else {
+      cart.removeAt(index);
+    }
   }
 
-  @action
-  subtract(CarrinhoHeroModel value) {
-    int index =
-        carrinho.indexWhere((element) => element.hero.id == value.hero.id);
-    carrinho[index] = value.copyWith(quantity: value.quantity - 1);
+  @computed
+  double get finalValue {
+    if (cart.length > 0) {
+      return cart
+          .map((item) => item.quantity * item.hero.id.roundToDouble())
+          .reduce((value, item) => value + item);
+    } else {
+      return 0.0;
+    }
   }
 }
