@@ -81,7 +81,13 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   Icons.shopping_cart,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  if (controller.userLogged) {
+                    Modular.to.pushNamed('/cart');
+                  } else {
+                    Modular.to.pushNamed('/login');
+                  }
+                },
               ),
             ],
           ),
