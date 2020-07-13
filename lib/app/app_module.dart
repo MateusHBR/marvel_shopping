@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:marvel_store/app/shared/util/base_url.dart';
+import 'package:marvel_store/app/modules/login/login_module.dart';
+import 'package:marvel_store/app/shared/utils/base_url.dart';
 import 'package:marvel_store/app/shared/repositories/marvel_repository.dart';
 
 import 'app_controller.dart';
@@ -19,6 +20,11 @@ class AppModule extends MainModule {
   @override
   List<Router> get routers => [
         Router(Modular.initialRoute, module: HomeModule()),
+        Router(
+          '/login',
+          module: LoginModule(),
+          transition: TransitionType.leftToRight,
+        ),
       ];
 
   @override
