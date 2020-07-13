@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marvel_store/app/shared/animations/fade_animation.dart';
 import 'package:marvel_store/app/shared/models/hero_model.dart';
+import 'package:marvel_store/app/shared/utils/global_scaffold.dart';
 import 'item_controller.dart';
 
 class ItemPage extends StatefulWidget {
@@ -17,6 +19,11 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends ModularState<ItemPage, ItemController> {
   //use 'controller' variable to access controller
+  final snackbar = SnackBar(
+    content: Text('Item adicionado ao carrinho'),
+    backgroundColor: Colors.green,
+    duration: Duration(milliseconds: 500),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +125,30 @@ class _ItemPageState extends ModularState<ItemPage, ItemController> {
                     delay: 1.5,
                     child: Container(
                       width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.white,
-                        child: Text(
-                          'Adicionar ao carrinho',
-                          style: TextStyle(),
-                        ),
-                        onPressed: () {},
+                      child: Observer(
+                        builder: (_) {
+                          return RaisedButton(
+                            color: Colors.white,
+                            child: controller.userLogged
+                                ? Text(
+                                    'Adicionar ao carrinho',
+                                    style: TextStyle(),
+                                  )
+                                : Text(
+                                    'Fazer login',
+                                    style: TextStyle(),
+                                  ),
+                            onPressed: controller.userLogged
+                                ? () {
+                                    controller.addInCart(widget.hero);
+                                    GlobalScaffold.instance
+                                        .showSnackBar(snackbar);
+                                  }
+                                : () {
+                                    Modular.to.pushNamed('/login');
+                                  },
+                          );
+                        },
                       ),
                     ),
                   ),
