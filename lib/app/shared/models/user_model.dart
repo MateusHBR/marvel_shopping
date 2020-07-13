@@ -7,9 +7,9 @@ class UserModel {
   bool isLoggedIn;
 
   UserModel({
-    @required this.login,
-    @required this.password,
-    @required this.name,
+    this.login,
+    this.password,
+    this.name,
     this.isLoggedIn = false,
   });
 
