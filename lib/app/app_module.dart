@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:marvel_store/app/app_widget.dart';
 import 'package:marvel_store/app/modules/home/home_module.dart';
 import 'package:marvel_store/app/modules/cart/cart_module.dart';
+import './splash/splash_page.dart';
 
 class AppModule extends MainModule {
   @override
@@ -20,7 +21,8 @@ class AppModule extends MainModule {
 
   @override
   List<Router> get routers => [
-        Router(Modular.initialRoute, module: HomeModule()),
+        Router(Modular.initialRoute, child: (context, args) => SplashPage()),
+        Router('/home', module: HomeModule()),
         Router(
           '/login',
           module: LoginModule(),
