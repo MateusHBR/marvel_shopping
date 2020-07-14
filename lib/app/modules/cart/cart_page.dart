@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marvel_store/app/shared/models/hero_model.dart';
 import 'cart_controller.dart';
 
 class CartPage extends StatefulWidget {
@@ -14,6 +15,34 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends ModularState<CartPage, CartController> {
   //use 'controller' variable to access controller
+
+  void showGlobalDialog(BuildContext context, HeroModel hero) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: Text('Remover'),
+          content: Text('Deseja realmente remover esse item do carrinho?'),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                controller.removeFromCart(hero);
+                Navigator.of(context).pop();
+              },
+              child: Text('Sim'),
+            ),
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Não'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +159,13 @@ class _CartPageState extends ModularState<CartPage, CartController> {
                                             color: Colors.red,
                                           ),
                                           onPressed: () {
-                                            controller.removeFromCart(hero);
+                                            if (controller
+                                                    .compras[index].quantity <=
+                                                1) {
+                                              showGlobalDialog(context, hero);
+                                            } else {
+                                              controller.removeFromCart(hero);
+                                            }
                                           },
                                         ),
                                       ],
@@ -157,35 +192,55 @@ class _CartPageState extends ModularState<CartPage, CartController> {
                         children: <Widget>[
                           Observer(
                             builder: (_) {
-                              return Text(
-                                '${controller.allCharactersQuantity} Personagens no Carrinho',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                              return Visibility(
+                                visible: controller.allCharactersQuantity > 0,
+                                child: Text(
+                                  '${controller.allCharactersQuantity} Personagens no Carrinho',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               );
                             },
                           ),
                           Observer(
                             builder: (_) {
-                              return Text(
-                                'Valor total a pagar: R\$${controller.finalValue.toStringAsFixed(2).replaceAll('.', ',')}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
+                              return controller.allCharactersQuantity > 0
+                                  ? Text(
+                                      'Valor total a pagar: R\$${controller.finalValue.toStringAsFixed(2).replaceAll('.', ',')}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Adicione personagens ao carrinho para realizar uma compra!',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
                             },
                           ),
                         ],
                       ),
                       Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        height: size.height * 0.06,
                         width: double.infinity,
-                        child: RaisedButton(
-                          color: Colors.red,
-                          child: Text(
-                            'Finalizar pagamento',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {},
+                        child: Observer(
+                          builder: (_) {
+                            return RaisedButton(
+                              color: Colors.red,
+                              disabledColor: Colors.red.withAlpha(80),
+                              child: Text(
+                                'Finalizar pagamento',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: controller.allCharactersQuantity > 0
+                                  ? () {}
+                                  : null,
+                            );
+                          },
                         ),
                       ),
                     ],
