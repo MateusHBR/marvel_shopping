@@ -38,7 +38,8 @@ abstract class _HomeControllerBase with Store {
   bool get userLogged => _carrinhoStore.user.isLoggedIn;
 
   @computed
-  int get allCharactersQuantity =>
-      _carrinhoStore.cart.map((hero) => hero.quantity).reduce(
-          (previousQuantity, nextQuantity) => previousQuantity + nextQuantity);
+  int get allCharactersQuantity => _carrinhoStore.cart.length > 0
+      ? _carrinhoStore.cart.map((hero) => hero.quantity).reduce(
+          (previousQuantity, nextQuantity) => previousQuantity + nextQuantity)
+      : 0;
 }

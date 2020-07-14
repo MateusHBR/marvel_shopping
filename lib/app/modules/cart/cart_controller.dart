@@ -31,7 +31,8 @@ abstract class _CartControllerBase with Store {
   double get finalValue => _carrinhoStore.finalValue;
 
   @computed
-  int get allCharactersQuantity =>
-      _carrinhoStore.cart.map((hero) => hero.quantity).reduce(
-          (previousQuantity, nextQuantity) => previousQuantity + nextQuantity);
+  int get allCharactersQuantity => _carrinhoStore.cart.length > 0
+      ? _carrinhoStore.cart.map((hero) => hero.quantity).reduce(
+          (previousQuantity, nextQuantity) => previousQuantity + nextQuantity)
+      : 0;
 }
