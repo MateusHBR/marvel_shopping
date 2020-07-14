@@ -29,4 +29,9 @@ abstract class _CartControllerBase with Store {
 
   @computed
   double get finalValue => _carrinhoStore.finalValue;
+
+  @computed
+  int get allCharactersQuantity =>
+      _carrinhoStore.cart.map((hero) => hero.quantity).reduce(
+          (previousQuantity, nextQuantity) => previousQuantity + nextQuantity);
 }

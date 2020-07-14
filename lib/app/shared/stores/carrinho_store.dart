@@ -9,7 +9,7 @@ class CarrinhoStore = _CarrinhoStoreBase with _$CarrinhoStore;
 
 abstract class _CarrinhoStoreBase with Store {
   _CarrinhoStoreBase() {
-    print(user.isLoggedIn);
+    // print(user.isLoggedIn);
   }
 
   @observable

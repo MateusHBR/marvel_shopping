@@ -16,6 +16,13 @@ mixin _$HomeController on _HomeControllerBase, Store {
       (_$userLoggedComputed ??= Computed<bool>(() => super.userLogged,
               name: '_HomeControllerBase.userLogged'))
           .value;
+  Computed<int> _$allCharactersQuantityComputed;
+
+  @override
+  int get allCharactersQuantity => (_$allCharactersQuantityComputed ??=
+          Computed<int>(() => super.allCharactersQuantity,
+              name: '_HomeControllerBase.allCharactersQuantity'))
+      .value;
 
   final _$heroFutureAtom = Atom(name: '_HomeControllerBase.heroFuture');
 
@@ -52,7 +59,8 @@ mixin _$HomeController on _HomeControllerBase, Store {
     return '''
 heroFuture: ${heroFuture},
 offset: ${offset},
-userLogged: ${userLogged}
+userLogged: ${userLogged},
+allCharactersQuantity: ${allCharactersQuantity}
     ''';
   }
 }

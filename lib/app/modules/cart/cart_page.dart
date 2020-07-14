@@ -152,11 +152,30 @@ class _CartPageState extends ModularState<CartPage, CartController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Divider(),
-                      Observer(
-                        builder: (_) {
-                          return Text(
-                              'Valor total a pagar: R\$${controller.finalValue.toStringAsFixed(2).replaceAll('.', ',')}');
-                        },
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Observer(
+                            builder: (_) {
+                              return Text(
+                                '${controller.allCharactersQuantity} Personagens no Carrinho',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            },
+                          ),
+                          Observer(
+                            builder: (_) {
+                              return Text(
+                                'Valor total a pagar: R\$${controller.finalValue.toStringAsFixed(2).replaceAll('.', ',')}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       Container(
                         width: double.infinity,

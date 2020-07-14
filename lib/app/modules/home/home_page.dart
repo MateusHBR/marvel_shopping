@@ -76,18 +76,52 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             elevation: 0,
             backgroundColor: backgroundColor,
             actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  if (controller.userLogged) {
-                    Modular.to.pushNamed('/cart');
-                  } else {
-                    Modular.to.pushNamed('/login');
-                  }
-                },
+              Stack(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      if (controller.userLogged) {
+                        Modular.to.pushNamed('/cart');
+                      } else {
+                        Modular.to.pushNamed('/login');
+                      }
+                    },
+                  ),
+                  Observer(
+                    builder: (_) {
+                      if (controller.allCharactersQuantity > 0) {
+                        return Positioned(
+                          right: 0,
+                          child: Container(
+                            height: size.height * 0.03,
+                            width: size.height * 0.03,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              '${controller.allCharactersQuantity}',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: size.height * 0.014,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
+                ],
               ),
             ],
           ),

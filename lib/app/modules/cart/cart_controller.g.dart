@@ -23,6 +23,13 @@ mixin _$CartController on _CartControllerBase, Store {
       (_$finalValueComputed ??= Computed<double>(() => super.finalValue,
               name: '_CartControllerBase.finalValue'))
           .value;
+  Computed<int> _$allCharactersQuantityComputed;
+
+  @override
+  int get allCharactersQuantity => (_$allCharactersQuantityComputed ??=
+          Computed<int>(() => super.allCharactersQuantity,
+              name: '_CartControllerBase.allCharactersQuantity'))
+      .value;
 
   final _$_CartControllerBaseActionController =
       ActionController(name: '_CartControllerBase');
@@ -53,7 +60,8 @@ mixin _$CartController on _CartControllerBase, Store {
   String toString() {
     return '''
 compras: ${compras},
-finalValue: ${finalValue}
+finalValue: ${finalValue},
+allCharactersQuantity: ${allCharactersQuantity}
     ''';
   }
 }
