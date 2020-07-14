@@ -101,17 +101,14 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                             width: size.height * 0.03,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              color: Colors.transparent,
+                              color: Colors.black.withOpacity(0.5),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               '${controller.allCharactersQuantity}',
                               style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: size.height * 0.014,
+                                color: Colors.white,
+                                fontSize: size.height * 0.015,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
