@@ -19,11 +19,8 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends ModularState<ItemPage, ItemController> {
   //use 'controller' variable to access controller
-  final snackbar = SnackBar(
-    content: Text('Item adicionado ao carrinho'),
-    backgroundColor: Colors.green,
-    duration: Duration(milliseconds: 500),
-  );
+
+  // final snackbar = ;
 
   @override
   Widget build(BuildContext context) {
@@ -141,8 +138,19 @@ class _ItemPageState extends ModularState<ItemPage, ItemController> {
                             onPressed: controller.userLogged
                                 ? () {
                                     controller.addInCart(widget.hero);
-                                    GlobalScaffold.instance
-                                        .showSnackBar(snackbar);
+                                    GlobalScaffold.instance.showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Item adicionado ao carrinho'),
+                                        duration: Duration(milliseconds: 1800),
+                                        action: SnackBarAction(
+                                          label: 'Desfazer',
+                                          textColor: Colors.red,
+                                          onPressed: () => controller
+                                              .removeFromCart(widget.hero),
+                                        ),
+                                      ),
+                                    );
                                   }
                                 : () {
                                     Modular.to.pushNamed('/login');
