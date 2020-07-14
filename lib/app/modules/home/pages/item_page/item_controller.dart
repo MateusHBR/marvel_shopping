@@ -23,4 +23,9 @@ abstract class _ItemControllerBase with Store {
       ),
     );
   }
+
+  @action
+  void removeFromCart(HeroModel hero) {
+    _carrinhoStore.removeFromCart(CarrinhoHeroModel(hero: hero));
+  }
 }

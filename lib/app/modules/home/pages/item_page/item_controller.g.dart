@@ -32,6 +32,17 @@ mixin _$ItemController on _ItemControllerBase, Store {
   }
 
   @override
+  void removeFromCart(HeroModel hero) {
+    final _$actionInfo = _$_ItemControllerBaseActionController.startAction(
+        name: '_ItemControllerBase.removeFromCart');
+    try {
+      return super.removeFromCart(hero);
+    } finally {
+      _$_ItemControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 userLogged: ${userLogged}
