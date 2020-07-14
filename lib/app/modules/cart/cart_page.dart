@@ -49,85 +49,94 @@ class _CartPageState extends ModularState<CartPage, CartController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             elevation: 5,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              height: size.height * 0.1,
-                              width: double.infinity,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    backgroundColor: Colors.black,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl: hero.url,
-                                        placeholder: (context, url) => Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Center(
-                                          child: Icon(
-                                            Icons.error,
-                                            color: Colors.red,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(10),
+                              onTap: () {
+                                Modular.to.pushNamed('/home/item',
+                                    arguments: controller.compras[index].hero);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                height: size.height * 0.1,
+                                width: double.infinity,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          imageUrl: hero.url,
+                                          placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Center(
+                                            child: Icon(
+                                              Icons.error,
+                                              color: Colors.red,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        width: size.width * 0.4,
-                                        child: Text(
-                                          hero.name,
-                                          overflow: TextOverflow.ellipsis,
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          width: size.width * 0.4,
+                                          child: Text(
+                                            hero.name,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        width: size.width * 0.4,
-                                        child: Text(
-                                          'R\$${hero.id.toStringAsFixed(2).replaceAll('.', ',')}',
-                                          style: TextStyle(color: Colors.grey),
-                                          overflow: TextOverflow.ellipsis,
+                                        Container(
+                                          width: size.width * 0.4,
+                                          child: Text(
+                                            'R\$${hero.id.toStringAsFixed(2).replaceAll('.', ',')}',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          controller.addInCart(hero);
-                                        },
-                                      ),
-                                      Observer(
-                                        builder: (_) {
-                                          return Text(
-                                            controller.compras[index].quantity
-                                                .toString(),
-                                          );
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.remove_circle,
-                                          color: Colors.red,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        IconButton(
+                                          icon: Icon(Icons.add),
+                                          onPressed: () {
+                                            controller.addInCart(hero);
+                                          },
                                         ),
-                                        onPressed: () {
-                                          controller.removeFromCart(hero);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        Observer(
+                                          builder: (_) {
+                                            return Text(
+                                              controller.compras[index].quantity
+                                                  .toString(),
+                                            );
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.remove_circle,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            controller.removeFromCart(hero);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
