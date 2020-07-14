@@ -19,7 +19,7 @@ class AppWidget extends StatelessWidget {
         primaryColor: Colors.black,
         backgroundColor: Colors.white,
       ),
-      initialRoute: '/',
+      initialRoute: Modular.initialRoute,
       onGenerateRoute: Modular.generateRoute,
     );
   }
