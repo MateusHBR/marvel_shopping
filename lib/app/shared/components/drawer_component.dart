@@ -53,7 +53,9 @@ class DrawerComponent extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Modular.to.pushNamed('/cart');
+                  },
                   leading: Icon(Icons.shopping_cart),
                   title: Text('Carrinho'),
                   trailing: Icon(Icons.arrow_forward_ios),
