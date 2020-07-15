@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marvel_store/app/shared/models/user_model.dart';
-import 'package:marvel_store/app/shared/stores/carrinho_store.dart';
+
 import 'login_controller.dart';
 import 'package:marvel_store/app/shared/utils/global_scaffold.dart';
 
@@ -17,10 +18,18 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
   //use 'controller' variable to access controller
   // final CarrinhoStore carrinhoStore = Modular.get<CarrinhoStore>();
   final UserModel user = UserModel();
+  final FocusNode nodeOne = FocusNode();
+  final FocusNode nodeTwo = FocusNode();
   final _formKey = GlobalKey<FormState>();
-  final snackbar = SnackBar(
+  final snackbarFail = SnackBar(
     content: Text('Login ou Senha inválidos'),
     backgroundColor: Colors.red,
+    duration: Duration(milliseconds: 800),
+  );
+  final snackbarSucesso = SnackBar(
+    content: Text('Login realizado com sucesso!'),
+    backgroundColor: Colors.green,
+    duration: Duration(milliseconds: 900),
   );
 
   @override
@@ -61,39 +70,56 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          TextFormField(
-                            validator: (email) {
-                              if (email.isEmpty) {
-                                return 'Campo inválido';
-                              }
-                              return null;
+                          Observer(
+                            builder: (_) {
+                              return TextFormField(
+                                readOnly: controller.loading,
+                                validator: (email) {
+                                  if (email.isEmpty) {
+                                    return 'Campo inválido';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (newValue) {
+                                  user.login = newValue;
+                                },
+                                focusNode: nodeOne,
+                                onFieldSubmitted: (term) {
+                                  nodeOne.unfocus();
+                                  FocusScope.of(context).requestFocus(nodeTwo);
+                                },
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                  labelText: 'Usuário',
+                                  hintText: 'Informe seu usuário',
+                                ),
+                              );
                             },
-                            onSaved: (newValue) {
-                              user.login = newValue;
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Usuário',
-                              hintText: 'Informe seu usuário',
-                            ),
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          TextFormField(
-                            onSaved: (newValue) {
-                              user.password = newValue;
+                          Observer(
+                            builder: (_) {
+                              return TextFormField(
+                                readOnly: controller.loading,
+                                focusNode: nodeTwo,
+                                onSaved: (newValue) {
+                                  user.password = newValue;
+                                },
+                                validator: (password) {
+                                  if (password.isEmpty) {
+                                    return 'Campo inválido';
+                                  }
+                                  return null;
+                                },
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Senha',
+                                  hintText: 'Informe sua senha',
+                                ),
+                              );
                             },
-                            validator: (password) {
-                              if (password.isEmpty) {
-                                return 'Campo inválido';
-                              }
-                              return null;
-                            },
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: 'Senha',
-                              hintText: 'Informe sua senha',
-                            ),
                           ),
                           FlatButton(
                             padding: EdgeInsets.zero,
@@ -103,26 +129,42 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                         ],
                       ),
                       Container(
+                        height: size.height * 0.055,
                         width: size.width,
-                        child: RaisedButton(
-                          color: Colors.red,
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
-                              if (!controller.login(
-                                  user.login, user.password)) {
-                                GlobalScaffold.instance.showSnackBar(snackbar);
+                        child: Observer(builder: (_) {
+                          return RaisedButton(
+                            color: Colors.red,
+                            child: controller.loading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                var loginDone = await controller.login(
+                                    user.login, user.password);
+                                if (!loginDone) {
+                                  GlobalScaffold.instance
+                                      .showSnackBar(snackbarFail);
+                                } else {
+                                  GlobalScaffold.instance
+                                      .showSnackBar(snackbarSucesso);
+                                }
                               }
-                            }
-                          },
-                        ),
+                            },
+                          );
+                        }),
                       ),
                       Container(
                         width: size.width,
