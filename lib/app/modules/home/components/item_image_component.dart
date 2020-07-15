@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:marvel_store/app/shared/models/hero_model.dart';
+import 'package:marvel_store/app/shared/components/skeleton_item_component.dart';
 
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class ItemImageComponent extends StatelessWidget {
           fit: BoxFit.cover,
           imageUrl: hero.url,
           placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(),
+            child: SkeletonItemComponent(),
           ),
           errorWidget: (context, url, error) => Center(
             child: Icon(
