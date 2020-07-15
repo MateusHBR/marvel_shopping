@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:marvel_store/app/shared/animations/fade_animation.dart';
 import 'package:marvel_store/app/shared/models/hero_model.dart';
 import 'package:marvel_store/app/shared/utils/global_scaffold.dart';
@@ -19,7 +20,8 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends ModularState<ItemPage, ItemController> {
   //use 'controller' variable to access controller
-
+  final oCcy =
+      new NumberFormat.simpleCurrency(locale: 'pt_Br', decimalDigits: 2);
   // final snackbar = ;
 
   @override
@@ -95,7 +97,7 @@ class _ItemPageState extends ModularState<ItemPage, ItemController> {
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.symmetric(vertical: 15),
                       child: Text(
-                        'R\$ ${widget.hero.id.toStringAsFixed(2).replaceAll('.', ',')}',
+                        '${oCcy.format(widget.hero.id)}',
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
