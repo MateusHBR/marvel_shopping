@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  intl: ^0.16.1
+  shimmer: ^1.1.1
   supercharged: ^1.6.0
   simple_animations: ^2.2.1
   cached_network_image: ^2.2.0+1
