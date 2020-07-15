@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'package:marvel_store/app/shared/components/drawer_component.dart';
 
@@ -20,6 +22,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   //use 'controller' variable to access controller
   ScrollController _scrollController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final oCcy =
+      new NumberFormat.simpleCurrency(locale: 'pt_Br', decimalDigits: 2);
 
   _scrollListener() {
     if (_scrollController.position.pixels ==
@@ -127,14 +131,51 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               if (controller.heroFuture.error != null) {
                 return SliverFillRemaining(
                   child: Center(
-                    child: Text('ERRO'),
+                    child: RaisedButton.icon(
+                      onPressed: () {
+                        controller.loadRepositoryData();
+                      },
+                      color: Colors.black,
+                      label: Text(
+                        'Recarregar',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      icon: Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 );
               }
               if (controller.heroList.length == 0) {
-                return SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(),
+                return SliverPadding(
+                  padding: EdgeInsets.all(8),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (_, __) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.white,
+                          child: Container(
+                            width: size.width,
+                            height: size.height * 0.3,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: 6,
+                    ),
                   ),
                 );
               }
@@ -231,7 +272,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                                       alignment:
                                                           Alignment.center,
                                                       child: Text(
-                                                        'R\$ ${hero.id.toStringAsFixed(2).replaceAll('.', ',')}',
+                                                        '${oCcy.format(hero.id.roundToDouble())}',
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,

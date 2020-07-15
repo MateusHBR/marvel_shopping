@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:marvel_store/app/shared/models/hero_model.dart';
 import 'cart_controller.dart';
 
@@ -15,6 +16,8 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends ModularState<CartPage, CartController> {
   //use 'controller' variable to access controller
+  final oCcy =
+      new NumberFormat.simpleCurrency(locale: 'pt_Br', decimalDigits: 2);
 
   void showGlobalDialog(BuildContext context, HeroModel hero) {
     showDialog(
@@ -129,7 +132,7 @@ class _CartPageState extends ModularState<CartPage, CartController> {
                                         Container(
                                           width: size.width * 0.4,
                                           child: Text(
-                                            'R\$${hero.id.toStringAsFixed(2).replaceAll('.', ',')}',
+                                            '${oCcy.format(hero.id)}',
                                             style:
                                                 TextStyle(color: Colors.grey),
                                             overflow: TextOverflow.ellipsis,
@@ -207,7 +210,7 @@ class _CartPageState extends ModularState<CartPage, CartController> {
                             builder: (_) {
                               return controller.allCharactersQuantity > 0
                                   ? Text(
-                                      'Valor total a pagar: R\$${controller.finalValue.toStringAsFixed(2).replaceAll('.', ',')}',
+                                      'Valor total a pagar: ${oCcy.format(controller.finalValue)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
